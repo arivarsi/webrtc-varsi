@@ -8,12 +8,13 @@ var pc;
 var remoteStream;
 var turnReady;
 
-
+//
 var pcConfig = {
   'iceServers': [{
     'urls': 'stun:stun.l.google.com:19302'
   }]
 };
+
 
 // Set up audio and video regardless of what devices are present.
 var sdpConstraints = {
@@ -23,10 +24,10 @@ var sdpConstraints = {
 
 /////////////////////////////////////////////
 
-var room = 'foo';
+var room ;//= 'foo';
 // Could prompt for room name:
-// room = prompt('Enter room name:');
-
+ room = prompt('Enter room name:');
+//cratte connection over internet socket 
 var socket = io.connect();
 
 if (room !== '') {
@@ -52,8 +53,6 @@ socket.on('join', function (room){
 socket.on('joined', function(room) {
   console.log('joined: ' + room);
   isChannelReady = true;
-
-
 });
 
 socket.on('log', function(array) {
@@ -62,7 +61,10 @@ socket.on('log', function(array) {
 
 ////////////////////////////////////////////////
 
-
+function sendMessage(message) {
+  console.log('Client sending message: ', message);
+  socket.emit('message', message);
+}
 
 // This client receives a message
 socket.on('message', function(message) {
@@ -93,10 +95,9 @@ socket.on('message', function(message) {
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
 
-
 navigator.mediaDevices.getUserMedia({
-  audio: true,
-  video: true
+ 
+  video: true, audio: true
 })
 .then(gotStream)
 .catch(function(e) {
