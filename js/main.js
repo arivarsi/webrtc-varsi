@@ -1,6 +1,4 @@
 'use strict';
-// import { io } from './node_modules/';
-// let val = hello();
 
 var isChannelReady = false;
 var isInitiator = false;
@@ -9,6 +7,7 @@ var localStream;
 var pc;
 var remoteStream;
 var turnReady;
+
 
 var pcConfig = {
   'iceServers': [{
@@ -53,6 +52,8 @@ socket.on('join', function (room){
 socket.on('joined', function(room) {
   console.log('joined: ' + room);
   isChannelReady = true;
+
+
 });
 
 socket.on('log', function(array) {
@@ -61,10 +62,7 @@ socket.on('log', function(array) {
 
 ////////////////////////////////////////////////
 
-function sendMessage(message) {
-  console.log('Client sending message: ', message);
-  socket.emit('message', message);
-}
+
 
 // This client receives a message
 socket.on('message', function(message) {
@@ -95,8 +93,9 @@ socket.on('message', function(message) {
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
 
+
 navigator.mediaDevices.getUserMedia({
-  audio: false,
+  audio: true,
   video: true
 })
 .then(gotStream)
